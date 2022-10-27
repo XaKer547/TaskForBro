@@ -62,7 +62,13 @@ namespace TaskForBro
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var config:Configuration ? = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            config.AppSettings.Settings["Counter"].Value = counter.ToString();
+
+            config.Save(ConfigurationSaveMode.Modified);
+
+            ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
         }
     }
 }
