@@ -8,6 +8,13 @@
         Title="MainWindow" Height="100" Width="200" Closing="Window_Closing">
     <StackPanel>
         <TextBlock Name="CounterTxb"/>
+        <DockPanel>
+            <TextBox Name="Amount" Text="0" MinWidth="150" KeyDown="Input_change"/>
+            <StackPanel>
+                <Button Content="+" Click="Increase_Click"/>
+                <Button Content="-" Click="Decrease_Click"/>
+            </StackPanel>
+        </DockPanel>
         <Button Content="Рапечатать QR" Click="Button_Click"/>
     </StackPanel>
 </Window>

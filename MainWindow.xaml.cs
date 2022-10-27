@@ -1,8 +1,10 @@
 ﻿using Gma.QrCodeNet.Encoding;
 using Gma.QrCodeNet.Encoding.Windows.Render;
+using System;
 using System.Configuration;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -27,12 +29,15 @@ namespace TaskForBro
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             PrintDialog printer = new PrintDialog();
-            if (printer.ShowDialog() == true)
+            for (int i = 0; i < int.Parse(Amount.Text); i++)
             {
-                printer.PrintVisual(new Image() { Source = GetQR() }, "Qr-code");
+                if (printer.ShowDialog() == true)
+                {
+                    printer.PrintVisual(new Image() { Source = GetQR() }, "Qr-code");
+                }
+                counter++;
+                UpdateTextBlock();
             }
-            counter++;
-            UpdateTextBlock();
         }
 
         /// <summary>
@@ -69,6 +74,22 @@ namespace TaskForBro
             config.Save(ConfigurationSaveMode.Modified);
 
             ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
+        }
+
+        private void Decrease_Click(object sender, RoutedEventArgs e)
+        {
+            if (Amount.Text != "0")
+                Amount.Text = (int.Parse(Amount.Text) - 1).ToString();
+        }
+
+        private void Increase_Click(object sender, RoutedEventArgs e) => Amount.Text = (int.Parse(Amount.Text) + 1).ToString();
+
+        private void Input_change(object sender, KeyEventArgs e)
+        {
+            string input = e.Key.ToString();
+            char num = input[0];
+            if (num <= 47 || num >= 58)
+                e.Handled = true;
         }
     }
 }
